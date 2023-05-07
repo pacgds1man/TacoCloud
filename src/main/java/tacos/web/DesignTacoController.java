@@ -1,23 +1,19 @@
 package tacos.web;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.http2.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import sun.awt.util.IdentityArrayList;
 import tacos.Ingredient;
 import tacos.Order;
 import tacos.Taco;
+import tacos.TacoForm;
 import tacos.data.IngredientRepository;
 import tacos.data.TacoRepository;
 
 import javax.validation.Valid;
-import javax.xml.ws.RequestWrapper;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +22,7 @@ import java.util.stream.Collectors;
 @SessionAttributes("order")
 public class DesignTacoController {
     private final IngredientRepository ingredientRepo;
-    private TacoRepository designRepo;
+    private final TacoRepository designRepo;
 
     @Autowired
     public DesignTacoController(IngredientRepository ingredientRepo, TacoRepository designRepo) {
@@ -62,13 +58,27 @@ public class DesignTacoController {
     }
 
     @PostMapping
-    public String processDesign(@Valid Taco design, Errors errors, @ModelAttribute Order order) {
+    public String processDesign(@Valid TacoForm form, Errors errors, @ModelAttribute Order order) {
         if (errors.hasErrors()) {
             return "design";
         }
-        Taco saved=designRepo.save(design);
+        Taco createdTaco = createTaco(form);
+
+        Taco saved=designRepo.save(createdTaco);
         order.addDesign(saved);
         return "redirect:/orders/current";
+    }
+
+    private Taco createTaco(TacoForm form) {
+        List<Ingredient> ingredients = form.getIngredients().stream()
+                .map(ingredientRepo::findById)
+                .collect(Collectors.toList());
+
+        Taco taco = new Taco();
+        taco.setCreatedAt(form.getCreatedAt());
+        taco.setName(form.getName());
+        taco.setIngredients(ingredients);
+        return taco;
     }
 
 }
