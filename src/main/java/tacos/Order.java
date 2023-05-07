@@ -1,62 +1,54 @@
-//tag::all[]
-//tag::allButValidation[]
 package tacos;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.Data;
 
-import java.util.Date;
-
+//tag::newFields[]
 @Data
 public class Order {
+
     private Long id;
 
     private Date placedAt;
-    //end::allButValidation[]
-    @NotBlank(message="Name is required")
-    //tag::allButValidation[]
-    private String name;
-    //end::allButValidation[]
 
-    @NotBlank(message="Street is required")
-    //tag::allButValidation[]
-    private String street;
-    //end::allButValidation[]
+//end::newFields[]
 
-    @NotBlank(message="City is required")
-    //tag::allButValidation[]
-    private String city;
-    //end::allButValidation[]
+    @NotBlank(message = "Delivery name is required")
+    private String deliveryName;
 
-    @NotBlank(message="State is required")
-    //tag::allButValidation[]
-    private String state;
-    //end::allButValidation[]
+    @NotBlank(message = "Street is required")
+    private String deliveryStreet;
 
-    @NotBlank(message="Zip code is required")
-    //tag::allButValidation[]
-    private String zip;
-    //end::allButValidation[]
+    @NotBlank(message = "City is required")
+    private String deliveryCity;
 
-    @CreditCardNumber(message="Not a valid credit card number")
-    //tag::allButValidation[]
+    @NotBlank(message = "State is required")
+    private String deliveryState;
+
+    @NotBlank(message = "Zip code is required")
+    private String deliveryZip;
+
+    @CreditCardNumber(message = "Not a valid credit card number")
     private String ccNumber;
-    //end::allButValidation[]
 
-    @Pattern(regexp="^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$",
-            message="Must be formatted MM/YY")
-    //tag::allButValidation[]
+    @Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$",
+            message = "Must be formatted MM/YY")
     private String ccExpiration;
-    //end::allButValidation[]
 
-    @Digits(integer=3, fraction=0, message="Invalid CVV")
-    //tag::allButValidation[]
+    @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
+    private List<Taco> tacos = new ArrayList<>();
+
+    public void addDesign(Taco design) {
+        this.tacos.add(design);
+    }
 }
-//end::allButValidation[]
-//end::all[]
