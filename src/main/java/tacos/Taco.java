@@ -19,5 +19,3 @@ public class Taco {
     private List<Ingredient> ingredients;
 
 }
-//end::allButValidation[]
-//tag::end[]

@@ -24,7 +24,7 @@ public class OrderController {
         this.orderRepo = orderRepo;
     }
 
-    @GetMapping("/current")
+        @GetMapping("/current")
     public String orderForm(Model model) {
         model.addAttribute("order", new Order());
         return "orderForm";
