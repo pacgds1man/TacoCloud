@@ -15,6 +15,7 @@ import tacos.data.TacoRepository;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -71,7 +72,7 @@ public class DesignTacoController {
 
     private Taco createTaco(TacoForm form) {
         List<Ingredient> ingredients = form.getIngredients().stream()
-                .map(ingredientRepo::findById)
+                .map(ingredientRepo::getById)
                 .collect(Collectors.toList());
 
         Taco taco = new Taco();
