@@ -24,14 +24,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder encoder() {
-            return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();
 
     }
-//    @Bean
-//    public PasswordEncoder delegatingPasswordEncoder() {
-//
-//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -43,8 +39,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutSuccessUrl("/")
                 .and().csrf().disable()
-                .cors().disable();
+                .headers().frameOptions().sameOrigin();
     }
+
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
