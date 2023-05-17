@@ -1,9 +1,7 @@
 package tacos.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +16,6 @@ import tacos.User;
 import tacos.data.OrderRepository;
 
 import javax.validation.Valid;
-import java.awt.print.Pageable;
 
 
 @Controller
@@ -53,7 +50,7 @@ public class OrderController {
 
     @GetMapping
     public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
-        Pageable pageable = (Pageable) PageRequest.of(0, props.getPageSize());
+        Pageable pageable =  PageRequest.of(0, props.getPageSize());
         model.addAttribute("orders",orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
         return "orderList";
     }
