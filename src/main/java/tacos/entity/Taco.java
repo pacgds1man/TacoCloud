@@ -1,4 +1,4 @@
-package tacos;
+package tacos.entity;
 
 import java.util.Date;
 import java.util.List;
@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,7 +36,7 @@ public class Taco {
 package tacos.data;
 
         import org.springframework.data.repository.CrudRepository;
-        import tacos.Ingredient;
+        import tacos.entity.Ingredient;
 
 public interface IngredientRepository
         extends CrudRepository<Ingredient, String> {

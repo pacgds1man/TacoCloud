@@ -1,4 +1,4 @@
-package tacos;
+package tacos.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

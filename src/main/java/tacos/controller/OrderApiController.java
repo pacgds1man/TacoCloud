@@ -1,32 +1,32 @@
 package tacos.controller;
 
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import tacos.Order;
-import tacos.User;
+import tacos.entity.Order;
 import tacos.repository.OrderRepository;
-import tacos.OrderProps;
 
-import javax.validation.Valid;
+@RestController
+@RequestMapping(path = "/orders", produces = "application/json")
+@CrossOrigin(origins = "*")
+public class OrderApiController {
 
+    private OrderRepository repo;
 
-@Controller
-@RequestMapping("/orders")
-@SessionAttributes("order")
-public class OrderController {
-    public OrderController(OrderRepository repo) {
+    public OrderApiController(OrderRepository repo) {
         this.repo = repo;
     }
 
-    private OrderRepository repo;
+    @GetMapping(produces = "application/json")
+    public Iterable<Order> allOrders() {
+        return repo.findAll();
+    }
+
+    @PostMapping(consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Order postOrder(@RequestBody Order order) {
+        return repo.save(order);
+    }
 
     @PutMapping(path = "/{orderId}", consumes = "application/json")
     public Order putOrder(@RequestBody Order order) {
@@ -66,7 +66,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{orderId}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOrder(@PathVariable("orderId") Long orderId) {
         try {
             repo.deleteById(orderId);
@@ -74,34 +74,4 @@ public class OrderController {
         }
     }
 
-//    public OrderController(OrderRepository orderRepo, OrderProps props) {
-//        this.orderRepo = orderRepo;
-//        this.props = props;
-//    }
-//
-//
-//    @GetMapping("/current")
-//    public String orderForm(Model model) {
-//        model.addAttribute("order", new Order());
-//        return "orderForm";
-//    }
-//
-//    @PostMapping
-//    public String processOrder(@Valid Order order, Errors errors, @AuthenticationPrincipal User user, SessionStatus sessionStatus) {
-//        if (errors.hasErrors()) {
-//            return "orderForm";
-//        }
-//        order.setUser(user);
-//        orderRepo.save(order);
-//        sessionStatus.setComplete();
-//        return "redirect:/";
-//    }
-//
-//    @GetMapping
-//    public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
-//        Pageable pageable =  PageRequest.of(0, props.getPageSize());
-//        model.addAttribute("orders",orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
-//        return "orderList";
-//    }
 }
-
