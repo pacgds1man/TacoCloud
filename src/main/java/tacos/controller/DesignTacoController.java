@@ -2,6 +2,7 @@ package tacos.controller;
 
 import java.util.Optional;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import tacos.repository.TacoRepository;
 @RestController
 @RequestMapping(path = "/design", produces = "application/json")
 @CrossOrigin(origins = "*")
+@SecurityRequirement(name = "basicAuth")
 public class DesignTacoController {
     private final TacoRepository tacoRepo;
 

@@ -1,5 +1,6 @@
 package tacos.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import tacos.repository.OrderRepository;
 @RestController
 @RequestMapping(path = "/orders", produces = "application/json")
 @CrossOrigin(origins = "*")
+@SecurityRequirement(name = "basicAuth")
 public class OrderApiController {
 
     private OrderRepository repo;

@@ -1,5 +1,6 @@
 package tacos.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import tacos.repository.IngredientRepository;
 @RestController
 @RequestMapping(path="/ingredientsx", produces="application/json")
 @CrossOrigin(origins="*")
+@SecurityRequirement(name = "basicAuth")
 public class IngredientController {
 
   private IngredientRepository repo;
